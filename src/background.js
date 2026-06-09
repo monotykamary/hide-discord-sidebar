@@ -34,11 +34,7 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
 chrome.runtime.onInstalled.addListener(async function (details) {
   // Initialize default state
   let state = await getState({
-    active: true,
-    showServers: true,
-    servers: "server-autohide",
-    channels: "channel-hide",
-    smallWindowWidth: 750
+    active: true
   });
   await setState(state);
   console.table(state);
