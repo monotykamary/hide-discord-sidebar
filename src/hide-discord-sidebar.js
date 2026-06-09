@@ -3,8 +3,9 @@ const HDS = {
   closeTimeout: null,
   openLock: false,
   documentListenersAttached: false,
-  CLOSE_DELAY: 400,
+  CLOSE_DELAY: 500,
   OPEN_LOCK_DURATION: 500,
+  KEEP_ALIVE_PADDING: 60,
 
   getServers() {
     return document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
@@ -96,6 +97,34 @@ const HDS = {
     if (strip) strip.remove();
   },
 
+  getSidebarBounds() {
+    const guilds = this.getServers();
+    const sidebarContainer = document.querySelector('.hds-sidebar-container');
+    if (!guilds || !sidebarContainer) return null;
+
+    const gRect = guilds.getBoundingClientRect();
+    const sRect = sidebarContainer.getBoundingClientRect();
+
+    return {
+      left: Math.min(gRect.left, sRect.left),
+      top: Math.min(gRect.top, sRect.top),
+      right: Math.max(gRect.right, sRect.right),
+      bottom: Math.max(gRect.bottom, sRect.bottom)
+    };
+  },
+
+  isMouseInKeepAliveZone(x, y) {
+    const bounds = this.getSidebarBounds();
+    if (!bounds) return false;
+    const p = this.KEEP_ALIVE_PADDING;
+    return (
+      x >= bounds.left - p &&
+      x <= bounds.right + p &&
+      y >= bounds.top - p &&
+      y <= bounds.bottom + p
+    );
+  },
+
   attachDocumentListeners() {
     if (this.documentListenersAttached) return;
     const self = this;
@@ -104,7 +133,7 @@ const HDS = {
       if (!document.body.classList.contains('hide-dis-bar')) return;
 
       const trigger = document.getElementById('hds-hover-trigger');
-      if (e.target === trigger || trigger && trigger.contains(e.target)) {
+      if (e.target === trigger || (trigger && trigger.contains(e.target))) {
         self.openSidebar();
         return;
       }
@@ -115,10 +144,13 @@ const HDS = {
       }
     });
 
-    document.addEventListener('mouseout', function (e) {
+    document.addEventListener('mousemove', function (e) {
       if (!document.body.classList.contains('hide-dis-bar')) return;
       if (!document.body.classList.contains('hds-sidebar-open')) return;
-      if (self.isSidebarElement(e.target) && !self.isSidebarElement(e.relatedTarget)) {
+
+      if (self.isMouseInKeepAliveZone(e.clientX, e.clientY)) {
+        self.cancelClose();
+      } else {
         self.scheduleClose();
       }
     });
