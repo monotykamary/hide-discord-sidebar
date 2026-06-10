@@ -54,9 +54,9 @@ body.hide-dis-bar:not(.hds-sidebar-open) .hds-sidebar-container {
 }
 
 body.hide-dis-bar.hds-sidebar-open .hds-sidebar-container {
-  width: 240px !important;
-  min-width: 240px !important;
-  max-width: 240px !important;
+  width: var(--hds-sidebar-width, 240px) !important;
+  min-width: var(--hds-sidebar-width, 240px) !important;
+  max-width: var(--hds-sidebar-width, 240px) !important;
 }
 
 /* Lock sidebar width: disable resize handle */

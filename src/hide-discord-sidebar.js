@@ -7,6 +7,18 @@ const HDS = {
   OPEN_LOCK_DURATION: 500,
   KEEP_ALIVE_PADDING: 60,
 
+  sidebarWidth: null,
+
+  captureSidebarWidth() {
+    const container = this.getSidebarContainer();
+    if (!container) return;
+    const width = container.getBoundingClientRect().width;
+    if (width > 0) {
+      this.sidebarWidth = Math.round(width);
+      document.body.style.setProperty('--hds-sidebar-width', this.sidebarWidth + 'px');
+    }
+  },
+
   getServers() {
     return document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
       || document.getElementsByClassName('wrapper-1Rf91z')[0]
@@ -59,6 +71,7 @@ const HDS = {
 
   openSidebar() {
     this.cancelClose();
+    this.captureSidebarWidth();
     document.body.classList.add('hds-sidebar-open');
     this.openLock = true;
     setTimeout(() => {
@@ -164,6 +177,7 @@ const HDS = {
       document.body.classList.toggle("hide-dis-bar", this.state.active);
 
       if (this.state.active) {
+        this.captureSidebarWidth();
         this.tagElements();
         this.createHoverTrigger();
         this.attachDocumentListeners();
