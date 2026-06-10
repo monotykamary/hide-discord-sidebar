@@ -7,24 +7,24 @@ body.hide-dis-bar .container-3gCOGc {
   z-index: 0;
 }
 
-/* Hover trigger strip: thin visible line on left edge */
+/* Hover trigger strip: generous hit area with thin visual edge */
 #hds-hover-trigger {
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
+  width: 12px;
   cursor: pointer;
   z-index: 999;
-  background: rgba(255, 255, 255, 0.06);
+  background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.06) 75%);
   border-radius: 0 2px 2px 0;
   transition: background 0.2s ease, width 0.15s ease;
 }
 
 #hds-hover-trigger:hover,
 #hds-hover-trigger.hds-active {
-  width: 8px;
-  background: rgba(114, 137, 218, 0.35);
+  width: 14px;
+  background: linear-gradient(to right, transparent 0%, rgba(114, 137, 218, 0.35) 70%);
 }
 
 /* Hide trigger when sidebar is open */
