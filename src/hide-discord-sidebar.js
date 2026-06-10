@@ -17,6 +17,7 @@ const HDS = {
       this.sidebarWidth = Math.round(width);
       document.body.style.setProperty('--hds-sidebar-width', this.sidebarWidth + 'px');
     }
+    return width > 0;
   },
 
   getServers() {
@@ -71,7 +72,6 @@ const HDS = {
 
   openSidebar() {
     this.cancelClose();
-    this.captureSidebarWidth();
     document.body.classList.add('hds-sidebar-open');
     this.openLock = true;
     setTimeout(() => {
@@ -174,10 +174,9 @@ const HDS = {
   stateChangeHandler(state) {
     try {
       this.state = Object.assign({}, state);
+      this.captureSidebarWidth();
       document.body.classList.toggle("hide-dis-bar", this.state.active);
-
       if (this.state.active) {
-        this.captureSidebarWidth();
         this.tagElements();
         this.createHoverTrigger();
         this.attachDocumentListeners();
