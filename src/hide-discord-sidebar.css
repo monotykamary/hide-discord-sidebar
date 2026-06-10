@@ -1,3 +1,18 @@
+/* When window is nearly full-screen, suppress all sidebar hiding */
+body.hide-dis-bar.hds-fullscreen #hds-hover-trigger,
+body.hide-dis-bar.hds-fullscreen .hds-guilds,
+body.hide-dis-bar.hds-fullscreen .hds-sidebar-container,
+body.hide-dis-bar.hds-fullscreen div[class*="sidebarList"],
+body.hide-dis-bar.hds-fullscreen section[class*="panels-"],
+body.hide-dis-bar.hds-fullscreen div[class*="panels-"] {
+  display: revert !important;
+  width: revert !important;
+  min-width: revert !important;
+  overflow: revert !important;
+  pointer-events: revert !important;
+  opacity: revert !important;
+}
+
 body.hide-dis-bar .noticeInfo-3_iTE1,
 .notice-2FJMB4 {
   z-index: 1000;
@@ -43,7 +58,7 @@ body.hide-dis-bar:not(.hds-sidebar-open) .hds-guilds {
 }
 
 /* Sidebar container (covers channel list + user panel) */
-body.hide-dis-bar .hds-sidebar-container {
+body.hide-dis-bar:not(.hds-fullscreen) .hds-sidebar-container {
   transition: width 0.2s ease, min-width 0.2s ease;
   overflow: hidden;
 }

@@ -3,6 +3,7 @@ const HDS = {
   closeTimeout: null,
   openLock: false,
   documentListenersAttached: false,
+  boundCheckFullscreen: null,
   CLOSE_DELAY: 500,
   OPEN_LOCK_DURATION: 500,
   KEEP_ALIVE_PADDING: 60,
@@ -158,6 +159,13 @@ const HDS = {
     this.documentListenersAttached = true;
   },
 
+  FULLSCREEN_THRESHOLD: 50,
+
+  checkFullscreen() {
+    const isFull = window.innerWidth >= screen.width - this.FULLSCREEN_THRESHOLD;
+    document.body.classList.toggle('hds-fullscreen', isFull);
+  },
+
   attachResizeListeners() {
     document.addEventListener('mousedown', function () {
       document.body.classList.add('hds-resizing');
@@ -177,8 +185,17 @@ const HDS = {
         this.createHoverTrigger();
         this.attachDocumentListeners();
         this.attachResizeListeners();
+        this.checkFullscreen();
+        if (!this.boundCheckFullscreen) {
+          this.boundCheckFullscreen = this.checkFullscreen.bind(this);
+        }
+        window.addEventListener('resize', this.boundCheckFullscreen);
         document.body.classList.remove('hds-sidebar-open');
       } else {
+        if (this.boundCheckFullscreen) {
+          window.removeEventListener('resize', this.boundCheckFullscreen);
+        }
+        document.body.classList.remove('hds-fullscreen');
         this.cleanupDOM();
       }
       return true;
