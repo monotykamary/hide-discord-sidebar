@@ -1,18 +1,3 @@
-/* When window is nearly full-screen, suppress all sidebar hiding */
-body.hide-dis-bar.hds-fullscreen #hds-hover-trigger,
-body.hide-dis-bar.hds-fullscreen .hds-guilds,
-body.hide-dis-bar.hds-fullscreen .hds-sidebar-container,
-body.hide-dis-bar.hds-fullscreen div[class*="sidebarList"],
-body.hide-dis-bar.hds-fullscreen section[class*="panels-"],
-body.hide-dis-bar.hds-fullscreen div[class*="panels-"] {
-  display: revert !important;
-  width: revert !important;
-  min-width: revert !important;
-  overflow: revert !important;
-  pointer-events: revert !important;
-  opacity: revert !important;
-}
-
 body.hide-dis-bar .noticeInfo-3_iTE1,
 .notice-2FJMB4 {
   z-index: 1000;
@@ -20,6 +5,11 @@ body.hide-dis-bar .noticeInfo-3_iTE1,
 
 body.hide-dis-bar .container-3gCOGc {
   z-index: 0;
+}
+
+/* Full-screen: hide the hover trigger — no need for it */
+body.hide-dis-bar.hds-fullscreen #hds-hover-trigger {
+  display: none !important;
 }
 
 /* Hover trigger strip: invisible hit area on left edge */
@@ -52,8 +42,8 @@ body.hide-dis-bar:not(.hds-sidebar-open) #hds-hover-trigger {
   transition: opacity 0.15s ease 0.2s;
 }
 
-/* Server list: hidden when sidebar is closed */
-body.hide-dis-bar:not(.hds-sidebar-open) .hds-guilds {
+/* Server list: hidden when sidebar is closed (skip when full-screen) */
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) .hds-guilds {
   display: none !important;
 }
 
@@ -68,23 +58,21 @@ body.hds-resizing .hds-sidebar-container {
   transition: none !important;
 }
 
-body.hide-dis-bar:not(.hds-sidebar-open) .hds-sidebar-container {
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) .hds-sidebar-container {
   width: 0 !important;
   min-width: 0 !important;
 }
 
-/* When open: let Discord manage its own width — don't force anything */
-
-/* Disable resize handle only when sidebar is collapsed */
-body.hide-dis-bar:not(.hds-sidebar-open) div[class*="resizeHandle-"],
-body.hide-dis-bar:not(.hds-sidebar-open) div[class*="resizeHandle_"],
-body.hide-dis-bar:not(.hds-sidebar-open) div[class*="Resizer__handle"] {
+/* Disable resize handle only when sidebar is collapsed (skip when full-screen) */
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) div[class*="resizeHandle-"],
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) div[class*="resizeHandle_"],
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) div[class*="Resizer__handle"] {
   display: none !important;
   pointer-events: none !important;
 }
 
-/* Prevent content from being interactive while collapsed */
-body.hide-dis-bar:not(.hds-sidebar-open) .hds-sidebar-container > * {
+/* Prevent content from being interactive while collapsed (skip when full-screen) */
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) .hds-sidebar-container > * {
   pointer-events: none;
 }
 
@@ -93,14 +81,14 @@ body.hide-dis-bar.hds-sidebar-open .hds-sidebar-container > * {
 }
 
 /* Fallback: direct Discord selectors in case container tag is lost on re-render */
-body.hide-dis-bar:not(.hds-sidebar-open) div[class*="sidebarList"] {
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) div[class*="sidebarList"] {
   width: 0 !important;
   min-width: 0 !important;
   overflow: hidden;
 }
 
-body.hide-dis-bar:not(.hds-sidebar-open) section[class*="panels-"],
-body.hide-dis-bar:not(.hds-sidebar-open) div[class*="panels-"] {
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) section[class*="panels-"],
+body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) div[class*="panels-"] {
   display: none !important;
 }
 
