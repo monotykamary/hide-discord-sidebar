@@ -42,9 +42,15 @@ body.hide-dis-bar:not(.hds-sidebar-open) .hds-guilds {
   display: none !important;
 }
 
-/* Sidebar container (covers channel list + user panel): instant open/close */
+/* Sidebar container (covers channel list + user panel) */
 body.hide-dis-bar .hds-sidebar-container {
+  transition: width 0.2s ease, min-width 0.2s ease;
   overflow: hidden;
+}
+
+/* Disable transition while user is dragging the resize handle */
+body.hds-resizing .hds-sidebar-container {
+  transition: none !important;
 }
 
 body.hide-dis-bar:not(.hds-sidebar-open) .hds-sidebar-container {

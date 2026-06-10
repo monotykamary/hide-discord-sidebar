@@ -158,6 +158,19 @@ const HDS = {
     this.documentListenersAttached = true;
   },
 
+  attachResizeListeners() {
+    document.addEventListener('mousedown', function (e) {
+      const handle = e.target.closest('div[class*="resizeHandle"], div[class*="Resizer__handle"]');
+      if (handle) {
+        document.body.classList.add('hds-resizing');
+      }
+    });
+
+    document.addEventListener('mouseup', function () {
+      document.body.classList.remove('hds-resizing');
+    });
+  },
+
   stateChangeHandler(state) {
     try {
       this.state = Object.assign({}, state);
@@ -166,6 +179,7 @@ const HDS = {
         this.tagElements();
         this.createHoverTrigger();
         this.attachDocumentListeners();
+        this.attachResizeListeners();
         document.body.classList.remove('hds-sidebar-open');
       } else {
         this.cleanupDOM();
