@@ -159,11 +159,8 @@ const HDS = {
   },
 
   attachResizeListeners() {
-    document.addEventListener('mousedown', function (e) {
-      const handle = e.target.closest('div[class*="resizeHandle"], div[class*="Resizer__handle"]');
-      if (handle) {
-        document.body.classList.add('hds-resizing');
-      }
+    document.addEventListener('mousedown', function () {
+      document.body.classList.add('hds-resizing');
     });
 
     document.addEventListener('mouseup', function () {
