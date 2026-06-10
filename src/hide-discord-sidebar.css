@@ -42,9 +42,8 @@ body.hide-dis-bar:not(.hds-sidebar-open) .hds-guilds {
   display: none !important;
 }
 
-/* Sidebar container (covers channel list + user panel): smooth collapse */
+/* Sidebar container (covers channel list + user panel): instant open/close */
 body.hide-dis-bar .hds-sidebar-container {
-  transition: width 0.2s ease, min-width 0.2s ease;
   overflow: hidden;
 }
 
