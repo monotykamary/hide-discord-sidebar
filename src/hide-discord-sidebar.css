@@ -63,18 +63,12 @@ body.hide-dis-bar:not(.hds-sidebar-open) div[class*="Resizer__handle"] {
   pointer-events: none !important;
 }
 
-/* Content inside sidebar: fade */
-body.hide-dis-bar .hds-sidebar-container > * {
-  transition: opacity 0.15s ease;
-}
-
+/* Prevent content from being interactive while collapsed */
 body.hide-dis-bar:not(.hds-sidebar-open) .hds-sidebar-container > * {
-  opacity: 0;
   pointer-events: none;
 }
 
 body.hide-dis-bar.hds-sidebar-open .hds-sidebar-container > * {
-  opacity: 1;
   pointer-events: auto;
 }
 
