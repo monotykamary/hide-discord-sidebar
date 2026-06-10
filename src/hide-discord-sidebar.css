@@ -53,16 +53,12 @@ body.hide-dis-bar:not(.hds-sidebar-open) .hds-sidebar-container {
   min-width: 0 !important;
 }
 
-body.hide-dis-bar.hds-sidebar-open .hds-sidebar-container {
-  width: var(--hds-sidebar-width, 240px) !important;
-  min-width: var(--hds-sidebar-width, 240px) !important;
-  max-width: var(--hds-sidebar-width, 240px) !important;
-}
+/* When open: let Discord manage its own width — don't force anything */
 
-/* Lock sidebar width: disable resize handle */
-body.hide-dis-bar div[class*="resizeHandle-"],
-body.hide-dis-bar div[class*="resizeHandle_"],
-body.hide-dis-bar div[class*="Resizer__handle"] {
+/* Disable resize handle only when sidebar is collapsed */
+body.hide-dis-bar:not(.hds-sidebar-open) div[class*="resizeHandle-"],
+body.hide-dis-bar:not(.hds-sidebar-open) div[class*="resizeHandle_"],
+body.hide-dis-bar:not(.hds-sidebar-open) div[class*="Resizer__handle"] {
   display: none !important;
   pointer-events: none !important;
 }
