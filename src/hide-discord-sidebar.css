@@ -7,7 +7,7 @@ body.hide-dis-bar .container-3gCOGc {
   z-index: 0;
 }
 
-/* Hover trigger strip: generous hit area with thin visual edge */
+/* Hover trigger strip: invisible hit area on left edge */
 #hds-hover-trigger {
   position: fixed;
   left: 0;
@@ -16,15 +16,12 @@ body.hide-dis-bar .container-3gCOGc {
   width: 12px;
   cursor: pointer;
   z-index: 999;
-  background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.06) 75%);
-  border-radius: 0 2px 2px 0;
-  transition: background 0.2s ease, width 0.15s ease;
+  background: transparent;
 }
 
 #hds-hover-trigger:hover,
 #hds-hover-trigger.hds-active {
   width: 14px;
-  background: linear-gradient(to right, transparent 0%, rgba(114, 137, 218, 0.35) 70%);
 }
 
 /* Hide trigger when sidebar is open */
