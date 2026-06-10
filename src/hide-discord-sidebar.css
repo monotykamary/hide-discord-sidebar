@@ -44,11 +44,25 @@ body.hide-dis-bar:not(.hds-sidebar-open) #hds-hover-trigger {
 
 /* Server list: hidden when sidebar is closed (skip when full-screen) */
 body.hide-dis-bar:not(.hds-fullscreen):not(.hds-sidebar-open) .hds-guilds {
-  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Animate guilds in/out on fullscreen toggle */
+body.hide-dis-bar.hds-fullscreen .hds-guilds {
+  transition: width 0.2s ease, min-width 0.2s ease;
+  overflow: hidden;
 }
 
 /* Sidebar container (covers channel list + user panel) */
 body.hide-dis-bar:not(.hds-fullscreen) .hds-sidebar-container {
+  transition: width 0.2s ease, min-width 0.2s ease;
+  overflow: hidden;
+}
+
+/* Animate sidebar in/out on fullscreen toggle */
+body.hide-dis-bar.hds-fullscreen .hds-sidebar-container {
   transition: width 0.2s ease, min-width 0.2s ease;
   overflow: hidden;
 }

@@ -160,10 +160,25 @@ const HDS = {
   },
 
   FULLSCREEN_THRESHOLD: 50,
+  fullscreenTransitioning: false,
 
   checkFullscreen() {
     const isFull = window.innerWidth >= screen.width - this.FULLSCREEN_THRESHOLD;
+    const wasFull = document.body.classList.contains('hds-fullscreen');
+    if (isFull === wasFull) return;
+
     document.body.classList.toggle('hds-fullscreen', isFull);
+
+    const container = document.querySelector('.hds-sidebar-container');
+    if (container) {
+      this.fullscreenTransitioning = true;
+      container.addEventListener('transitionend', function handler(e) {
+        if (e.propertyName === 'width') {
+          container.removeEventListener('transitionend', handler);
+          HDS.fullscreenTransitioning = false;
+        }
+      });
+    }
   },
 
   attachResizeListeners() {
