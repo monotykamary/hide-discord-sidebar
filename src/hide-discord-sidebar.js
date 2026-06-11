@@ -4,7 +4,7 @@ const HDS = {
   openLock: false,
   documentListenersAttached: false,
   boundCheckFullscreen: null,
-  CLOSE_DELAY: 500,
+  CLOSE_DELAY: 250,
   OPEN_LOCK_DURATION: 500,
   KEEP_ALIVE_PADDING: 60,
 
