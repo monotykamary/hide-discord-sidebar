@@ -156,6 +156,12 @@ const HDS = {
       }
     });
 
+    document.addEventListener('mouseleave', function () {
+      if (!document.body.classList.contains('hide-dis-bar')) return;
+      if (!document.body.classList.contains('hds-sidebar-open')) return;
+      self.scheduleClose();
+    });
+
     this.documentListenersAttached = true;
   },
 
