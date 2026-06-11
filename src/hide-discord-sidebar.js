@@ -58,12 +58,18 @@ const HDS = {
     }
   },
 
+  closePending: false,
+
   openSidebar() {
     this.cancelClose();
+    this.closePending = false;
     document.body.classList.add('hds-sidebar-open');
     this.openLock = true;
     setTimeout(() => {
       this.openLock = false;
+      if (this.closePending) {
+        this.scheduleClose();
+      }
     }, this.OPEN_LOCK_DURATION);
   },
 
@@ -72,7 +78,10 @@ const HDS = {
   },
 
   scheduleClose() {
-    if (this.openLock) return;
+    if (this.openLock) {
+      this.closePending = true;
+      return;
+    }
     this.cancelClose();
     this.closeTimeout = setTimeout(() => {
       this.closeSidebar();
