@@ -149,10 +149,13 @@ const HDS = {
       if (!document.body.classList.contains('hide-dis-bar')) return;
       if (!document.body.classList.contains('hds-sidebar-open')) return;
 
-      if (self.isMouseInKeepAliveZone(e.clientX, e.clientY)) {
-        self.cancelClose();
-      } else {
+      var x = e.clientX, y = e.clientY;
+      var atEdge = x <= 1 || y <= 1 || x >= window.innerWidth - 1 || y >= window.innerHeight - 1;
+
+      if (atEdge || !self.isMouseInKeepAliveZone(x, y)) {
         self.scheduleClose();
+      } else {
+        self.cancelClose();
       }
     });
 
@@ -160,6 +163,14 @@ const HDS = {
       if (!document.body.classList.contains('hide-dis-bar')) return;
       if (!document.body.classList.contains('hds-sidebar-open')) return;
       self.scheduleClose();
+    });
+
+    window.addEventListener('mouseout', function (e) {
+      if (!document.body.classList.contains('hide-dis-bar')) return;
+      if (!document.body.classList.contains('hds-sidebar-open')) return;
+      if (!e.relatedTarget && !e.toElement) {
+        self.scheduleClose();
+      }
     });
 
     this.documentListenersAttached = true;
