@@ -36,6 +36,7 @@ const HSS = {
       || el.closest('.p-view_contents--sidebar')
       || el.closest('.p-ia4_channel_list')
       || el.closest('.p-channel_sidebar')
+      || el.closest('.p-control_strip')
     );
   },
 
@@ -69,6 +70,7 @@ const HSS = {
       'body.hss-active:not(.hss-sidebar-open) .p-client_workspace__tabpanel { grid-template-columns: 0px 1fr !important; }',
       'body.hss-active:not(.hss-sidebar-open) .p-view_contents--sidebar { width: 0 !important; min-width: 0 !important; overflow: hidden !important; }',
       'body.hss-active:not(.hss-sidebar-open) .p-ia4_client__resizer--sidebar { display: none !important; pointer-events: none !important; }',
+      'body.hss-active:not(.hss-sidebar-open) .p-control_strip { display: none !important; }',
     ].join('\n');
   },
 
@@ -205,12 +207,25 @@ const HSS = {
   },
 
   FULLSCREEN_THRESHOLD: 50,
+  fullscreenTransitioning: false,
 
   checkFullscreen() {
     const isFull = window.innerWidth >= screen.width - this.FULLSCREEN_THRESHOLD;
     const wasFull = document.body.classList.contains('hss-fullscreen');
     if (isFull === wasFull) return;
+
     document.body.classList.toggle('hss-fullscreen', isFull);
+
+    const container = document.querySelector('.hss-sidebar-container');
+    if (container) {
+      this.fullscreenTransitioning = true;
+      container.addEventListener('transitionend', function handler(e) {
+        if (e.propertyName === 'width') {
+          container.removeEventListener('transitionend', handler);
+          HSS.fullscreenTransitioning = false;
+        }
+      });
+    }
   },
 
   attachResizeListeners() {
