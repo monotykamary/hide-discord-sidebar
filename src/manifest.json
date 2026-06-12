@@ -13,8 +13,7 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_icon": "icons/icon128-inactive.png",
-    "default_popup": "popup/popup.html"
+    "default_icon": "icons/icon128-inactive.png"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"

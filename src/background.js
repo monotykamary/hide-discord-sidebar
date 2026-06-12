@@ -30,6 +30,15 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
   return true;
 });
 
+// Toggle sidebar on icon click
+chrome.action.onClicked.addListener(async (tab) => {
+  if (!tab.url || !tab.url.match(/discord\.com/)) return;
+  let state = await getState(null);
+  state.active = !state.active;
+  await setState(state);
+  updateDiscordTab(state, tab.id);
+});
+
 // Initialize extension on install
 chrome.runtime.onInstalled.addListener(async function (details) {
   // Initialize default state
