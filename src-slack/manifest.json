@@ -1,0 +1,30 @@
+{
+  "name": "Hide Slack Sidebar",
+  "short_name": "Hide Slk Bar",
+  "version": "1.0.0",
+  "description": "Hide Slack Workspaces and Channels! Installs a button that hides/shows the Slack workspace rail and autohides the channels list.",
+  "manifest_version": 3,
+  "icons": {
+    "128": "icons/icon128-active.png"
+  },
+  "permissions": ["scripting", "storage"],
+  "host_permissions": ["*://*.slack.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": "icons/icon128-inactive.png",
+    "default_popup": "popup/popup.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.slack.com/*"],
+      "css": ["hide-slack-sidebar.css"],
+      "js": ["hide-slack-sidebar.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

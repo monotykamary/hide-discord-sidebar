@@ -1,0 +1,59 @@
+body.hss-active .p-ia4_top_nav {
+  z-index: 1000;
+}
+
+body.hss-active .p-client_workspace_wrapper {
+  z-index: 0;
+}
+
+/* Full-screen: hide the hover trigger */
+body.hss-active.hss-fullscreen #hss-hover-trigger {
+  display: none !important;
+}
+
+/* Hover trigger strip: invisible hit area on left edge */
+#hss-hover-trigger {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  cursor: pointer;
+  z-index: 999;
+  background: transparent;
+}
+
+#hss-hover-trigger:hover,
+#hss-hover-trigger.hss-active {
+  width: 14px;
+}
+
+/* Hide trigger when sidebar is open */
+body.hss-active.hss-sidebar-open #hss-hover-trigger {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+body.hss-active:not(.hss-sidebar-open) #hss-hover-trigger {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.15s ease 0.2s;
+}
+
+/* Prevent content from being interactive while collapsed */
+body.hss-active:not(.hss-sidebar-open) .hss-sidebar-container > * {
+  pointer-events: none;
+}
+
+body.hss-active.hss-sidebar-open .hss-sidebar-container > * {
+  pointer-events: auto;
+}
+
+body.hss-active:not(.hss-sidebar-open) .hss-tab-rail > * {
+  pointer-events: none;
+}
+
+body.hss-active.hss-sidebar-open .hss-tab-rail > * {
+  pointer-events: auto;
+}
