@@ -63,13 +63,23 @@ body.hss-active.hss-fullscreen .hss-sidebar-container {
   overflow: hidden;
 }
 
-/* Grid containers: snap instantly (width/min-width transitions on children
-   provide visual smoothness; grid-template-columns is not smoothly interpolable
-   between fr/auto and px/auto track sizing functions) */
+/* Grid containers: transition so the layout shift animates smoothly.
+   0px auto -> 70px auto interpolates because both share the same track
+   sizing function types (px + auto). The earlier "1fr" variant couldn't
+   interpolate against "auto", but the current "0px auto" works. */
+body.hss-active .p-client_workspace_wrapper {
+  transition: grid-template-columns 0.2s ease;
+}
+
+body.hss-active .p-client_workspace__tabpanel {
+  transition: grid-template-columns 0.2s ease;
+}
 
 /* Disable transition while user is dragging the resize handle */
 body.hss-resizing .hss-tab-rail,
-body.hss-resizing .hss-sidebar-container {
+body.hss-resizing .hss-sidebar-container,
+body.hss-resizing .p-client_workspace_wrapper,
+body.hss-resizing .p-client_workspace__tabpanel {
   transition: none !important;
 }
 
