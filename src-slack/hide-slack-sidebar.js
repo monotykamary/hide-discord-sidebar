@@ -65,12 +65,12 @@ const HSS = {
   applyCollapsedGrid() {
     const sheet = this.getSheet();
     sheet.textContent = [
-      'body.hss-active:not(.hss-sidebar-open) .p-tab_rail { width: 0 !important; min-width: 0 !important; overflow: hidden !important; }',
-      'body.hss-active:not(.hss-sidebar-open) .p-client_workspace_wrapper { grid-template-columns: 0px 1fr !important; }',
-      'body.hss-active:not(.hss-sidebar-open) .p-client_workspace__tabpanel { grid-template-columns: 0px 1fr !important; }',
-      'body.hss-active:not(.hss-sidebar-open) .p-view_contents--sidebar { width: 0 !important; min-width: 0 !important; overflow: hidden !important; }',
-      'body.hss-active:not(.hss-sidebar-open) .p-ia4_client__resizer--sidebar { display: none !important; pointer-events: none !important; }',
-      'body.hss-active:not(.hss-sidebar-open) .p-control_strip { display: none !important; }',
+      'body.hss-active:not(.hss-fullscreen):not(.hss-sidebar-open) .p-tab_rail { width: 0 !important; min-width: 0 !important; overflow: hidden !important; }',
+      'body.hss-active:not(.hss-fullscreen):not(.hss-sidebar-open) .p-client_workspace_wrapper { grid-template-columns: 0px auto !important; }',
+      'body.hss-active:not(.hss-fullscreen):not(.hss-sidebar-open) .p-client_workspace__tabpanel { grid-template-columns: 0px auto !important; }',
+      'body.hss-active:not(.hss-fullscreen):not(.hss-sidebar-open) .p-view_contents--sidebar { width: 0 !important; min-width: 0 !important; overflow: hidden !important; }',
+      'body.hss-active:not(.hss-fullscreen):not(.hss-sidebar-open) .p-ia4_client__resizer--sidebar { display: none !important; pointer-events: none !important; }',
+      'body.hss-active:not(.hss-fullscreen):not(.hss-sidebar-open) .p-control_strip { display: none !important; }',
     ].join('\n');
   },
 
@@ -79,11 +79,25 @@ const HSS = {
     if (sheet) sheet.textContent = '';
   },
 
+  forceReflow() {
+    // Toggle display to force the browser to recalculate grid layout
+    // after clearing/applying dynamic stylesheet rules. A simple offsetHeight
+    // read isn't sufficient for CSS Grid recalculation.
+    const ww = this.getWorkspaceWrapper();
+    if (ww) {
+      ww.style.display = 'none';
+      void ww.offsetHeight;
+      ww.style.display = '';
+      void ww.offsetHeight;
+    }
+  },
+
   openSidebar() {
     this.cancelClose();
     this.closePending = false;
     document.body.classList.add('hss-sidebar-open');
     this.clearDynamicSheet();
+    this.forceReflow();
     this.openLock = true;
     setTimeout(() => {
       this.openLock = false;
@@ -96,6 +110,7 @@ const HSS = {
   closeSidebar() {
     document.body.classList.remove('hss-sidebar-open');
     this.applyCollapsedGrid();
+    this.forceReflow();
   },
 
   scheduleClose() {
@@ -215,6 +230,18 @@ const HSS = {
     if (isFull === wasFull) return;
 
     document.body.classList.toggle('hss-fullscreen', isFull);
+
+    if (isFull) {
+      // Entering fullscreen: show the sidebar, hide hover trigger
+      this.cancelClose();
+      this.closePending = false;
+      document.body.classList.add('hss-sidebar-open');
+      this.clearDynamicSheet();
+    } else {
+      // Exiting fullscreen: collapse the sidebar
+      document.body.classList.remove('hss-sidebar-open');
+      this.applyCollapsedGrid();
+    }
 
     const container = document.querySelector('.hss-sidebar-container');
     if (container) {
