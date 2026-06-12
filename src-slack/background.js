@@ -1,3 +1,12 @@
+// Toggle extension on/off when the toolbar icon is clicked
+chrome.action.onClicked.addListener(async (tab) => {
+  if (!tab.url || !tab.url.match(/slack\.com/)) return;
+  let state = await getState(null);
+  state.active = !state.active;
+  await setState(state);
+  updateSlackTab(state, tab.id);
+});
+
 // Alert scripts on Slack tabs and update extension icon
 function updateSlackTabs(state) {
   console.log("updateSlackTabs");
