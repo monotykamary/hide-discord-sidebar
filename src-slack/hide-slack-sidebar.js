@@ -79,25 +79,11 @@ const HSS = {
     if (sheet) sheet.textContent = '';
   },
 
-  forceReflow() {
-    // Toggle display to force the browser to recalculate grid layout
-    // after clearing/applying dynamic stylesheet rules. A simple offsetHeight
-    // read isn't sufficient for CSS Grid recalculation.
-    const ww = this.getWorkspaceWrapper();
-    if (ww) {
-      ww.style.display = 'none';
-      void ww.offsetHeight;
-      ww.style.display = '';
-      void ww.offsetHeight;
-    }
-  },
-
   openSidebar() {
     this.cancelClose();
     this.closePending = false;
     document.body.classList.add('hss-sidebar-open');
     this.clearDynamicSheet();
-    this.forceReflow();
     this.openLock = true;
     setTimeout(() => {
       this.openLock = false;
@@ -110,7 +96,6 @@ const HSS = {
   closeSidebar() {
     document.body.classList.remove('hss-sidebar-open');
     this.applyCollapsedGrid();
-    this.forceReflow();
   },
 
   scheduleClose() {
