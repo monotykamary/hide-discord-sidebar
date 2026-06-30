@@ -34,6 +34,33 @@ const HDS = {
     return sidebarList.parentElement;
   },
 
+  // The outer app grid that reserves the 32px "titleBar" row.
+  // Walk up from the server list to the first ancestor whose
+  // grid-template-areas defines the titleBar area. (The intermediate
+  // layout wrapper and content grid do not declare named areas, so they
+  // are skipped.) Robust to Discord's per-build class-name hashes.
+  getBaseGrid() {
+    const guilds = this.getServers();
+    if (!guilds) return null;
+    let el = guilds.parentElement;
+    while (el && el !== document.body) {
+      const areas = getComputedStyle(el).gridTemplateAreas;
+      if (areas && areas.includes('titleBar')) return el;
+      el = el.parentElement;
+    }
+    return null;
+  },
+
+  // The titlebar grid item itself: the child of the app grid placed in
+  // the "titleBar" grid area.
+  getTitlebar() {
+    const grid = this.getBaseGrid();
+    if (!grid) return null;
+    return Array.from(grid.children).find(
+      (child) => getComputedStyle(child).gridArea === 'titleBar'
+    ) || null;
+  },
+
   isSidebarElement(el) {
     if (!el) return false;
     return !!(
@@ -55,6 +82,16 @@ const HDS = {
     const sidebarContainer = this.getSidebarContainer();
     if (sidebarContainer && !sidebarContainer.classList.contains('hds-sidebar-container')) {
       sidebarContainer.classList.add('hds-sidebar-container');
+    }
+
+    const baseGrid = this.getBaseGrid();
+    if (baseGrid && !baseGrid.classList.contains('hds-base')) {
+      baseGrid.classList.add('hds-base');
+    }
+
+    const titlebar = this.getTitlebar();
+    if (titlebar && !titlebar.classList.contains('hds-titlebar')) {
+      titlebar.classList.add('hds-titlebar');
     }
   },
 
@@ -252,6 +289,12 @@ const HDS = {
 
     const sidebarContainer = this.getSidebarContainer();
     if (sidebarContainer) sidebarContainer.classList.remove('hds-sidebar-container');
+
+    const titlebar = this.getTitlebar();
+    if (titlebar) titlebar.classList.remove('hds-titlebar');
+
+    const baseGrid = this.getBaseGrid();
+    if (baseGrid) baseGrid.classList.remove('hds-base');
 
     this.removeHoverTrigger();
     document.body.classList.remove('hds-sidebar-open');

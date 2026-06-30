@@ -7,6 +7,27 @@ body.hide-dis-bar .container-3gCOGc {
   z-index: 0;
 }
 
+/* Remove Discord's titlebar and reclaim its vertical space.
+   Two parts: hide the titlebar grid item itself, and collapse the
+   "titleBar" row in the app grid so the content area grows to fill
+   the freed 32px. The named grid lines (titleBarEnd / noticeEnd / end)
+   are preserved because the content sibling is placed via those line
+   names (grid-area: titleBarEnd / start / end / end). The last track
+   uses 1fr so the layout stays correct on window resize. */
+body.hide-dis-bar .hds-titlebar {
+  display: none !important;
+}
+
+body.hide-dis-bar .hds-base {
+  grid-template-rows: [top] 0px [titleBarEnd] 0px [noticeEnd] 1fr [end] !important;
+}
+
+/* With the titlebar gone, the server list would sit flush against the
+   top of the window; add a little breathing room. */
+body.hide-dis-bar .hds-guilds {
+  padding-top: 8px !important;
+}
+
 /* Full-screen: hide the hover trigger — no need for it */
 body.hide-dis-bar.hds-fullscreen #hds-hover-trigger {
   display: none !important;
