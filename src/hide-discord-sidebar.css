@@ -25,7 +25,7 @@ body.hide-dis-bar .hds-base {
 /* With the titlebar gone, the server list would sit flush against the
    top of the window; add a little breathing room. */
 body.hide-dis-bar .hds-guilds {
-  padding-top: 8px !important;
+  margin-top: 8px !important;
 }
 
 /* Full-screen: hide the hover trigger — no need for it */
